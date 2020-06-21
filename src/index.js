@@ -60,7 +60,15 @@ const Notification = () => {
       const timeout = setTimeout(
           () => setVisible(false), 1500);
       return () => clearTimeout(timeout);
-}, []);
+  }, []);
+
+  return (
+      <div>
+          { visible && <p>Hello</p> }
+      </div>
+  );
+};
+
 
 
 ReactDOM.render(<App />,
