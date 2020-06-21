@@ -10,10 +10,9 @@ const App = () => {
             <div>
               <button 
                 onClick={() => setValue((v) => v + 1)}>+</button>
-               <button 
+              <button 
                 onClick={() => setVisible(false)}>hide</button>  
-              
-              <HookCounter value={value}/>
+              <Notification />
             </div>
         );
     } else {
@@ -24,9 +23,12 @@ const App = () => {
 const HookCounter = ({ value }) => {
 
     useEffect(() => {
-       console.log(' useEffect() ');
-       return () => console.log('clear');
-    }, [ value ]);
+      console.log('mount');
+      return () => console.log('unmount');
+
+    }, []);
+
+    useEffect(() => console.log('update'));
     
     return <p> {value}</p>;
 };
@@ -50,10 +52,16 @@ class ClassCounter extends Component {
     }
 }
 
+const Notification = () => {
+   
+    const [ visible, setVisible ] = useState(true);
+   
+    useEffect(() => {
+      const timeout = setTimeout(
+          () => setVisible(false), 1500);
+      return () => clearTimeout(timeout);
+}, []);
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+
+ReactDOM.render(<App />,
+  document.getElementById('root'));
